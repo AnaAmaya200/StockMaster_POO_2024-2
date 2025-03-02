@@ -2,13 +2,13 @@ import json
 
 INVENTORY_JSON_PATH = 'data/inventory.json'
 
-# Clase para manejar los productos
+# Class to manage products
 class Product():
     def __init__(self, id: int, name: str, price: float, stock: int):
-        self.id = id            # Identificador del producto
-        self.name = name        # Nombre del producto
-        self.price = price      # Precio del producto
-        self.stock = stock      # Stock del producto
+        self.id = id            # Product ID
+        self.name = name        # Product name
+        self.price = price      # Product price
+        self.stock = stock      # Product stock
 
     def __str__(self):
         return (
@@ -17,7 +17,7 @@ class Product():
         f'    Price: ${self.price}\n'
         f'    Stock: {self.stock}')
     
-    # Convierte el producto a un diccionario
+    # Convert product data to a dictionary
     def product_to_dict(self) -> dict:  
         return {
             'id': self.id,
@@ -27,82 +27,83 @@ class Product():
         }
 
 
-# Clase para manejar el inventario
+# Class to manage the inventory
 class Inventory():
     def __init__(self, json_file: str =INVENTORY_JSON_PATH):
-        self.products = {}  # Diccionario de productos
+        self.products = {}  # Dictionary to store the products
         self.json_file = json_file
-        self.load_inventory()   # Carga el inventario desde el archivo JSON
+        self.load_inventory()   # Load inventory from JSON
 
-    # Cargar inventario desde JSON
+    # Load inventory from JSON
     def load_inventory(self) -> None:
         try:
-            with open(self.json_file, 'r') as file:
-                data = json.load(file)
-                for item in data['Products']:
-                    product = Product(**item)
-                    self.products[product.id] = product
+            with open(self.json_file, 'r') as file:     # Open the file in read mode
+                data = json.load(file)  # Load the data
+                for item in data['Products']:   # Iterate over the products
+                    product = Product(**item)   # Create a product object
+                    self.products[product.id] = product # Add the product to the dictionary
         except FileNotFoundError:
-            print("The JSON file was not found, starting with an empty inventory.")
+            print(
+                f"The JSON file was not found, starting with an empty inventory."
+                )
 
             
-    # Guardar inventario a JSON
+    # Save inventory to JSON
     def save_inventory(self) -> None:
-        with open(self.json_file, 'w') as file: # Abre el archivo en modo escritura
-            data = {        # Crea un diccionario con los productos
+        with open(self.json_file, 'w') as file:     # Open the file in write mode
+            data = {        # Create a dictionary with the products
                 'Products': [
-                    product.product_to_dict()   # Convierte el producto a un diccionario
+                    product.product_to_dict()   # Convert the product to a dictionary
                     for product in self.products.values()  
                 ]
             }
-            json.dump(data, file, indent=4)   # Escribe el diccionario en el archivo JSON
+            json.dump(data, file, indent=4)   # Write the data to the JSON file
 
-    # Agrega productos al inventario
+    # Add a product to the inventory
     def add_product(self, product: dict) -> bool:
-        if product.id in self.products:   # Verifica si el producto ya existe
+        if product.id in self.products:   # Check if the product already exists
             print('Product already exists')
             return False
         else:
-            self.products[product.id] = product  # Agrega el producto al diccionario
-            self.save_inventory()   # Guarda el inventario en el archivo JSON
+            self.products[product.id] = product  # Add the product to the dictionary
+            self.save_inventory()   # Save the inventory to the JSON file
             print('Product added successfully')
 
-    # Muestra los productos del inventario
+    # Show the products in the inventory
     def show_products(self) -> None:
         print('Products in inventory')
-        for product in self.products.values():  # Recorre los productos del inventario
-            print(product, "\n")    # Imprime el producto
+        for product in self.products.values():  # Iterate over the products
+            print(product, "\n")    
 
-    # Busca un producto en el inventario
+    # Search for a product in the inventory
     def search_product(self, id: int):
-        if id in self.products:  # Verifica si el producto existe
-            print(self.products.get(id))    # Imprime el producto
-            return self.products.get(id)    # Retorna el producto
+        if id in self.products:  # Check if the product exists
+            print(self.products.get(id)) 
+            return self.products.get(id)    # Return the product
         else:
             print('Product not found')
             return False
     
-    # Cambia el stock de un producto
+    # Change the stock of a product
     def change_stock(self, id: int, change_stock: int) -> bool:
         product = self.search_product(id)
         if product:
-            product.stock = change_stock    # Cambia el stock del producto
-            self.save_inventory()   # Guarda el inventario en el archivo JSON
+            product.stock = change_stock    # Update the stock of the product
+            self.save_inventory()   # Save the inventory to the JSON file
             print('Stock updated successfully')
             return True
         return False
 
-    # Actualiza un producto del inventario
+    # Update the product information
     def update_product(
             self, id: int, name: str, price: float, stock: int
             ) -> bool:
-        product = self.search_product(id)   # Busca el producto
-        if product:
-            # Actualiza los datos del producto
+        product = self.search_product(id)   # Search for the product
+        if product:     # Update the product information
             product.name = name
             product.price = price
             product.stock = stock
-            self.save_inventory()   # Guarda el inventario en el archivo JSON
+            self.save_inventory()   # Save the inventory in the JSON file
             print('Product updated successfully')
             return True
         return False
@@ -112,7 +113,7 @@ class Inventory():
         product = self.search_product(id)   # Busca el producto
         if product:
             self.products.pop(id)   # Elimina el producto del diccionario
-            self.save_inventory()   # Guarda el inventario en el archivo JSON
+            self.save_inventory()   # Save the inventory in the JSON file
             print('Product deleted successfully')
             return True
         return False

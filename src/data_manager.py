@@ -1,3 +1,19 @@
+"""
+data_manager.py - User and Record Management for JSON Files
+
+This module provides classes and methods to manage users and records using JSON files. 
+It includes functionality to load, save, and update JSON data, as well as user authentication.
+
+Classes:
+    JSONHandler: Provides methods to load, save, and initialize JSON files.
+    User: Manages user data, authentication, and saves users to JSON files.
+    Record: Handles record creation, storage, and management in JSON files.
+
+Constants:
+    INVENTORY_JSON_PATH: Path to the JSON file storing the inventory data.
+"""
+
+
 import json
 import os
 from datetime import datetime

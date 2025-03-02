@@ -1,0 +1,142 @@
+{
+    "Products": [
+        {
+            "id": 1,
+            "name": "Laptop",
+            "price": 1200,
+            "stock": 7
+        },
+        {
+            "id": 2,
+            "name": "Smartphone",
+            "price": 800,
+            "stock": 10
+        },
+        {
+            "id": 3,
+            "name": "Tablet",
+            "price": 450,
+            "stock": 8
+        },
+        {
+            "id": 4,
+            "name": "Monitor",
+            "price": 300,
+            "stock": 12
+        },
+        {
+            "id": 5,
+            "name": "Keyboard",
+            "price": 100,
+            "stock": 20
+        },
+        {
+            "id": 6,
+            "name": "Mouse",
+            "price": 50,
+            "stock": 25
+        },
+        {
+            "id": 7,
+            "name": "Printer",
+            "price": 200,
+            "stock": 7
+        },
+        {
+            "id": 8,
+            "name": "Camera",
+            "price": 600,
+            "stock": 6
+        },
+        {
+            "id": 9,
+            "name": "Smartwatch",
+            "price": 250,
+            "stock": 15
+        },
+        {
+            "id": 10,
+            "name": "Router",
+            "price": 100,
+            "stock": 30
+        },
+        {
+            "id": 11,
+            "name": "Speaker",
+            "price": 150,
+            "stock": 10
+        },
+        {
+            "id": 12,
+            "name": "Microphone",
+            "price": 80,
+            "stock": 18
+        },
+        {
+            "id": 13,
+            "name": "Webcam",
+            "price": 70,
+            "stock": 22
+        },
+        {
+            "id": 14,
+            "name": "External Hard Drive",
+            "price": 120,
+            "stock": 14
+        },
+        {
+            "id": 15,
+            "name": "USB Flash Drive",
+            "price": 20,
+            "stock": 50
+        },
+        {
+            "id": 16,
+            "name": "Graphics Card",
+            "price": 400,
+            "stock": 9
+        },
+        {
+            "id": 17,
+            "name": "Processor",
+            "price": 300,
+            "stock": 11
+        },
+        {
+            "id": 18,
+            "name": "RAM",
+            "price": 100,
+            "stock": 20
+        },
+        {
+            "id": 19,
+            "name": "Motherboard",
+            "price": 150,
+            "stock": 10
+        },
+        {
+            "id": 20,
+            "name": "Power Supply",
+            "price": 90,
+            "stock": 15
+        },
+        {
+            "id": 21,
+            "name": "Cooling Fan",
+            "price": 40,
+            "stock": 25
+        },
+        {
+            "id": 22,
+            "name": "SSD",
+            "price": 200,
+            "stock": 13
+        },
+        {
+            "id": 23,
+            "name": "Headphones",
+            "price": 250,
+            "stock": 15
+        }
+    ]
+}

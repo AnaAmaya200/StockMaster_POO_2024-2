@@ -1,0 +1,12 @@
+{
+    "Records": [
+        {
+            "record_id": 1,
+            "product_id": 1,
+            "name": "Laptop",
+            "amount": 7,
+            "movement": "Stock Changed",
+            "date": "2025-03-01"
+        }
+    ]
+}

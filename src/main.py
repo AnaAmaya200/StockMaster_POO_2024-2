@@ -1,4 +1,21 @@
 """
+main.py - Inventory Management System
+
+This module provides a command-line interface to manage product inventory, 
+including adding, updating, searching, and deleting products. 
+It also records all actions in a JSON file for tracking purposes.
+
+Modules:
+    - inventory: Manages products and stock.
+    - data_manager: Handles user and record data.
+
+Functions:
+    get_user_credentials(): Prompts the user to enter their login credentials.
+    main(): Runs the main menu loop for inventory management.
+
+JSON Files:
+    - users.json: Stores user data for login authentication.
+    - records.json: Logs all actions performed on the inventory.
 """
 
 from src.inventory import Inventory, Product

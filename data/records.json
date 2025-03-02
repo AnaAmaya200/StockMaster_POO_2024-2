@@ -7,6 +7,14 @@
             "amount": 7,
             "movement": "Stock Changed",
             "date": "2025-03-01"
+        },
+        {
+            "record_id": 2,
+            "product_id": 24,
+            "name": "iPhone",
+            "amount": 24,
+            "movement": "added",
+            "date": "2025-03-02"
         }
     ]
 }

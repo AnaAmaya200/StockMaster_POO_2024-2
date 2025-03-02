@@ -1,36 +1,40 @@
+"""
+"""
+
 from src.inventory import Inventory, Product
 from src.data_manager import Record, User
 
-from getpass import getpass     # Oculta la contraseña
+from getpass import getpass     # Hide password
 
-# Rutas de los archivos JSON
+# JSON file paths
 DATA_DIR = 'data'
-USER_JSON_PATH = f'{DATA_DIR}/users.json'   # Archivo JSON para los usuarios
-RECORDS_JSON_PATH = f'{DATA_DIR}/records.json'   # Archivo JSON para los registros
+USER_JSON_PATH = f'{DATA_DIR}/users.json'   # JSON file for users
+RECORDS_JSON_PATH = f'{DATA_DIR}/records.json'   # JSON file for records
 
-# Función para obtener las credenciales del usuario
-def get_user_credentials():
+# Function to obtain user credentials
+def get_user_credentials() -> tuple:
     print("\nPlease login")
     account = input('  User: ')
-    password = getpass('  Password: ')  # Oculta la contraseña
+    password = getpass('  Password: ')  # Hide password
     role = input('  Role: ')
     print("yew")
     return account, password, role
 
 def main():
-    User.load_users(USER_JSON_PATH)   # Carga los usuarios
-    Record.initialize_json_file(RECORDS_JSON_PATH, {'Records': []})    # Crea un archivo JSON vacío
-    inventory = Inventory()    # Instancia de la clase Inventory
+    User.load_users(USER_JSON_PATH)   # Load users from JSON file
+    # Initialize JSON file for records
+    Record.initialize_json_file(RECORDS_JSON_PATH, {'Records': []})    
+    inventory = Inventory()    # Create an inventory object
 
-    # Bucle para el inicio de sesión
+    # Loop to login
     while True:
         print('\nWelcome to StockMaster')
-        account, password, role = get_user_credentials()    # Obtiene las credenciales del usuario
+        account, password, role = get_user_credentials()    # Get user credentials
         
-        if User.login(account, password, role):     # Verifica las credenciales del usuario
+        if User.login(account, password, role):     # Verify user credentials
             break
    
-   # Bucle para el menú de opciones
+   # Loop to show the menu
     while True:
         print('\nMenu:')   
         print('1. Add product')
@@ -43,47 +47,61 @@ def main():
         option = input('  Select an option: ')  # Opción seleccionada por el usuario
 
         match option: 
-            case '1':   # Agregar producto
+            case '1':   # Add product
                 id = int(input('Enter product id: '))
                 name = str(input('Enter product name: '))
                 price = float(input('Enter product price: '))
                 stock = int(input('Enter product stock: '))
                 product = Product(id, name, price, stock)
                 inventory.add_product(product)
-                Record.add_record_to_json(id, name, name, stock, 'added', json_file=RECORDS_JSON_PATH)
+                Record.add_record_to_json(
+                    id, name, stock, 'added', json_file=RECORDS_JSON_PATH
+                    )
 
-            case '2':  # Mostrar productos
+            case '2':  # Show products
                 inventory.show_products()
 
-            case '3':   # Buscar producto
+            case '3':   # Search product
                 id = int(input('Enter product id: '))
                 inventory.search_product(id)
 
-            case '4':   # Cambiar stock
+            case '4':   # Change stock
                 id = int(input('Enter product id: '))
                 stock = int(input('Enter the value to adjust the stock: '))
                 name_4 = inventory.products[id].name
                 inventory.change_stock(id, stock)
-                Record.add_record_to_json(id, name_4, stock, 'Stock Changed', json_file=RECORDS_JSON_PATH)
+                Record.add_record_to_json(
+                    id, name_4, stock, 'Stock Changed', json_file=RECORDS_JSON_PATH
+                    )
 
-            case '5':   # Actualizar producto
+            case '5':   # Update product
                 id = int(input('Enter product id: '))
                 name = input('Enter product name: ')
                 price = float(input('Enter product price: '))
                 stock = int(input('Enter product stock: '))
                 inventory.update_product(id, name, price, stock)
-                Record.add_record_to_json(id, name, stock, 'updated', json_file=RECORDS_JSON_PATH)
+                Record.add_record_to_json(
+                    id, name, stock, 'updated', json_file=RECORDS_JSON_PATH
+                    )
 
-            case '6':   # Eliminar producto
+            case '6':   # Delete product
                 id = int(input('Enter product id: '))
-                inventory.delete_product(id)
-                Record.add_record_to_json(id, name, stock, 'removed', json_file=RECORDS_JSON_PATH)
+                product = inventory.delete_product(id)
+                if product:
+                    name = product.name
+                    stock = product.stock
+                    inventory.delete_product(id)
+                    Record.add_record_to_json(
+                        id, name, stock, 'removed', json_file=RECORDS_JSON_PATH
+                        )
+                else:
+                    print('Product not found')
 
-            case '7':   # Salir del programa
+            case '7':   # Exit
                 print("Exiting the program...")
                 break
 
-            case _:     # Opción inválida
+            case _:     # Invalid option
                 print('Invalid option. Please try again.')
 
 

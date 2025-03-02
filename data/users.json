@@ -1,5 +1,5 @@
 {
-    "Users": [
+    "Usuarios": [
         {
             "account": "Felipe Gonzalez",
             "password": "0000",
@@ -13,13 +13,17 @@
         {
             "account": "Julian Torres",
             "password": "0002",
-            "role": "employee"
+            "role": "Employee"
         },
         {
             "account": "Ana Amaya",
             "password": "0003",
-            "role": "employee"
+            "role": "Employee"
+        },
+        {
+            "account": "Camilo Torres",
+            "password": "0004",
+            "role": "Employee"
         }
-        
     ]
 }

@@ -43,7 +43,6 @@ class Inventory():
                     item['id'] = int(item['id'])
                     product = Product(**item)   # Create a product object
                     self.products[product.id] = product # Add the product to the dictionary
-                    print(f"Loding product {product}")
         except FileNotFoundError:
             print(
                 f"The JSON file was not found, starting with an empty inventory."

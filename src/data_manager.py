@@ -1,115 +1,154 @@
-"""
-data_manager.py - User and Record Management for JSON Files
-
-This module provides classes and methods to manage users and records using JSON files. 
-It includes functionality to load, save, and update JSON data, as well as user authentication.
-
-Classes:
-    JSONHandler: Provides methods to load, save, and initialize JSON files.
-    User: Manages user data, authentication, and saves users to JSON files.
-    Record: Handles record creation, storage, and management in JSON files.
-
-Constants:
-    INVENTORY_JSON_PATH: Path to the JSON file storing the inventory data.
-"""
-
-
 import json
 import os
 from datetime import datetime
 
-# Class to handle JSON files
+# Clase para manejar archivos JSON
 class JSONHandler:
-    # Method to load data
+    # Método para cargar datos
     @classmethod
-    def load_from_json(cls, json_file: str, data_name: str) -> dict:
+    def load_from_json(cls, json_file, data_name: str):
         try:
-            with open(json_file, 'r') as file:  # Open the file in read mode
-                data = json.load(file)  # Load the data
-                return data     # Return the data
-        except FileNotFoundError:   # Captures the exception if the file does not exist
+            with open(json_file, 'r') as file:  # Abre el archivo en modo lectura
+                data = json.load(file)  # Carga los datos del archivo JSON
+                #print(f"Data successfully loaded from '{json_file} | {data_name}'")
+                return data     # Retorna los datos cargados
+        except FileNotFoundError:   # Captura la excepción si el archivo no se encuentra
             print(f"Error: File '{json_file}' does not exist")
             return None
-        except json.JSONDecodeError:    # Captures the exception if the file is not a valid JSON
+        except json.JSONDecodeError:    # Captura la excepción si el archivo no es un JSON válido
             print(f"The file '{json_file}' is corrupt or is not a valid JSON")
 
-    # Method to save data
+    # Método para guardar datos
     @classmethod
-    def save_to_json(cls, data: dict, json_file: str) -> None:
+    def save_to_json(cls, data, json_file):
         try:
-            with open(json_file, 'w') as file:  # Open the file in write mode
-                json.dump(data, file, indent=4)     # Write the data to the file
-        except Exception as e:  # Captures any exception
+            with open(json_file, 'w') as file:  # Abre el archivo en modo escritura
+                json.dump(data, file, indent=4)     # Escribe los datos en el archivo JSON
+                #print(f"Data successfully saved to '{json_file}'")
+        except Exception as e:  # Captura cualquier excepción
             print(f"Error: Could not save data to '{json_file}. Reason: {e}")
 
-    # Method to initialize a JSON file
+    # Método para inicializar un archivo JSON
     @classmethod
-    def initialize_json_file(cls, json_file: str, defauld_data: dict) -> None:
-        if not os.path.exists(json_file):   # Check if the file exists
-            cls.save_to_json(defauld_data, json_file)               # Save the default data
+    def initialize_json_file(cls, json_file, defauld_data):
+        if not os.path.exists(json_file):   # Verifica si el archivo no existe
+            # Guarda los datos por defecto
+            cls.save_to_json(defauld_data, json_file)
             print(f"Inicialized file at '{json_file} with default data")
-        else:
+        else:   # Si el archivo ya existe
             print(f"File '{json_file}' already exists")
 
+    @classmethod
+    def show_elements_of_json(cls, json_file, data_name: str):
+        data = cls.load_from_json(json_file, data_name)  # Carga los datos del archivo JSON
+        if data:
+            elements = data.get(data_name, [])
+            print(f"\nElements in '{data_name}':")
+            for element in elements:
+                print(json.dumps(element, indent=4))  # Imprime cada elemento en formato JSON legible
+        else:
+            print(f"No data found in '{data_name}'.")
 
-# Class to manage users
+# Clase para manejar los usuarios
 class User(JSONHandler):
-    users = []  # List to store the users
+    users = []  # Lista de usuarios
 
     def __init__(self, account: str, password: str, role: str):
-        self.account = account      # User account
-        self.password = password    # User password
-        self.role = role            # User role
+        self.account = account      # Nombre de usuario
+        self.password = password    # Contraseña
+        self.role = role            # Rol del usuario
 
     def __str__(self):
         return f'Account: {self.account}, Role: {self.role}'
 
-    # Method to load users
+    # Método para cargar los usuarios
     @classmethod
-    def load_users(cls, json_file: str) -> None:
-        data = cls.load_from_json(json_file, 'Users')    # Load the data
-        if data:    # Check if the data exists
-            cls.users = [   # Create a list of users
+    def load_users(cls, json_file: str):
+        data = cls.load_from_json(json_file, 'Users')    # Carga los datos
+        print("Loaded data:", data)  # Imprime los datos cargados
+        if data and 'Users' in data:    # Si hay datos y la clave 'Users' está presente
+            cls.users = [   # Crea una lista de usuarios
                 User(user_data['account'], user_data['password'], user_data['role'])
                 for user_data in data.get('Users', [])
             ]
+            print("Users list:", cls.users)
+        else:
+            print("No 'Users' key in data or data is None")
 
-    # Method to save users
+    # Método para guardar los usuarios
     @classmethod
-    def save_users(cls, json_file: str) -> None:
-        # Create a dictionary with the users
+    def save_users(cls, json_file: str):
+        # Crea un diccionario con los usuarios
         data = {'Usuarios': [user.__dict__ for user in cls.users]}
         cls.save_to_json(data, json_file)   # Guarda los datos
-        print(f"Users successfully saved to '{json_file}'")
+        #print(f"Users successfully saved to '{json_file}'")
 
-    # Method to add a user
+    # Método para agregar un usuario
     @classmethod
-    def login(cls, account: str, password: str, role: str) -> bool:
-        for user in cls.users:  # Itera on the users
-            if user.account == account:    # Check user account
-                if user.password == password and user.role == role:
+    def login(cls, account: str, password: str):
+        for user in cls.users:  # Recorre la lista de usuarios
+            if user.account == account:  # Verifica si el usuario existe
+                if user.password == password:  # Verifica las credenciales
                     print("Successful login")
-                    return True
-        else:
-            print("Account does not exist")
-            return False
+                    return True, user.role
+                else:
+                    print("Incorrect password")
+                    return False, None
+        print("Account does not exist")
+        return False, None
+    
+    @classmethod
+    def show_users(cls, json_file: str):
+        cls.show_elements_of_json(json_file, 'Users')  
 
+    # Método para agregar un usuario
+    # @classmethod
+    # def add_user(cls, account: str, password: str, role: str, json_file: str):
+    #     new_user = User(account, password, role)
+    #     cls.users.append(new_user)
+    #     cls.save_users(json_file)  # Guarda los usuarios actualizados en el archivo JSON
+    #     print(f"User '{account}' added successfully.")
 
-# Class to manage records
+    # Método para eliminar un usuario
+    @classmethod
+    def delete_user(cls, account: str, json_file: str):
+        for user in cls.users:
+            if user.account == account:
+                cls.users.remove(user)
+                cls.save_users(json_file)  # Guarda los usuarios actualizados en el archivo JSON
+                print(f"User '{account}' deleted successfully.")
+                return True
+        print(f"User '{account}' not found.")
+        return False
+
+    # Método para actualizar un usuario
+    @classmethod
+    def update_user(cls, account: str, json_file: str, new_password: str , new_role: str ):
+        for user in cls.users:
+            if user.account == account:
+                if new_password:
+                    user.password = new_password
+                if new_role:
+                    user.role = new_role
+                cls.save_users(json_file)  # Guarda los usuarios actualizados en el archivo JSON
+                print(f"User '{account}' updated successfully.")
+                return True
+        print(f"User '{account}' not found.")
+        return False
+
+# Clase para manejar los registros
 class Record(JSONHandler):
-    def __init__(
-            self, record_id: int, id:int, name: str, amount: int, movement: str
-            ):
-        now = datetime.now()    # Gets the current date and time
-        self.record_id = record_id              # Record ID
-        self.product_id = id                    # Product ID
-        self.name = name                        # Product name
-        self.amount = amount                    # Amount
-        self.movement = movement                # Movement
-        self.date = now.strftime("%Y-%m-%d")    # Date
+    def __init__(self, record_id, id, name, amount, movement):
+        now = datetime.now()                    # Obtiene la fecha y hora actual
+        self.record_id = record_id              # ID del registro
+        self.product_id = id                    # ID del producto
+        self.name = name                        # Nombre del producto
+        self.amount = amount                    # Cantidad
+        self.movement = movement                # Movimiento
+        self.date = now.strftime("%Y-%m-%d")    # Fecha
 
-    # Method to convert the record to a dictionary
-    def to_dict(self) -> dict:
+    # Método para convertir los datos a un diccionario
+    def to_dict(self):
         return {
             'record_id': self.record_id,
             'product_id': self.product_id,
@@ -119,29 +158,36 @@ class Record(JSONHandler):
             'date': self.date
         }
 
-    # Method to initialize a JSON file
+    # Método para inicializar un archivo JSON
     @classmethod
-    def initialize_json_file(cls, json_file: str, default_data: dict) -> None:
+    def initialize_json_file(cls, json_file, default_data=None):
         if default_data is None:    
             default_data = {'Records': []}  # Valor por defecto
         super().initialize_json_file(json_file, default_data)   # Inicializa el archivo JSON
 
-    # Method to get the next ID
+    # Método para obtener el siguiente ID
     @classmethod
-    def get_next_id(cls, json_file: str) -> int:
+    def get_next_id(cls, json_file):
         data = cls.load_from_json(json_file, 'Records')    # Carga los datos
         if data and data['Records']:    
-            return data['Records'][-1]['record_id'] + 1
+            return data['Records'][-1]['Record_id'] + 1
         return 1
 
-    # Method to add a record to the JSON file
+    # Método para agregar un registro al archivo JSON
     @classmethod
-    def add_record_to_json(
-        cls, product_id: int, name: str, amount: int, movement: str, json_file: str
-        ) -> None:
-        next_id = cls.get_next_id(json_file)    # Get the next ID
-        record = Record(next_id, product_id, name, amount, movement)  # Create a record object
-        data = cls.load_from_json(json_file, 'Records') or {'Records': []}   # Load the data
-        data['Records'].append(record.to_dict())    # Add the record to the list
-        cls.save_to_json(data, json_file)   # Save the data
-        print("Record added successfully")
+    def add_record_to_json(cls, product_id, name, amount, movement, json_file):
+        next_id = cls.get_next_id(json_file)    # Obtiene el siguiente ID
+        record = Record(next_id, product_id, name, amount, movement)  # Crea un registro
+        data = cls.load_from_json(json_file, 'Records') or {'Records': []}   # Carga los datos
+        data['Records'].append(record.to_dict())    # Agrega el registro a la lista
+        cls.save_to_json(data, json_file)   # Guarda los datos
+    
+    @classmethod
+    def show_records(cls, json_file: str):
+        cls.show_elements_of_json(json_file, 'Records')  
+
+    @classmethod
+    def clean_records(cls, json_file: str) -> None:
+        empty_data = {'Records': []}  # Data vacía
+        cls.save_to_json(empty_data, json_file)  # Guardar datos vacíos en el archivo JSON
+        print("JSON file cleared successfully")

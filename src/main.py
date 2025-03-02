@@ -14,7 +14,7 @@ def get_user_credentials():
     account = input('  User: ')
     password = getpass('  Password: ')  # Oculta la contraseña
     role = input('  Role: ')
-    print("TEST2")
+    print("yew")
     return account, password, role
 
 def main():

@@ -4,7 +4,7 @@ INVENTORY_JSON_PATH = 'data/inventory.json'
 
 # Clase para manejar los productos
 class Product():
-    def __init__(self, id: int, name: str, price: float, stock: int) -> None:
+    def __init__(self, id: int, name: str, price: float, stock: int):
         self.id = id            # Identificador del producto
         self.name = name        # Nombre del producto
         self.price = price      # Precio del producto
@@ -29,13 +29,13 @@ class Product():
 
 # Clase para manejar el inventario
 class Inventory():
-    def __init__(self, json_file=INVENTORY_JSON_PATH):    # Le ingresa el archivo JSON al constructor
+    def __init__(self, json_file: str =INVENTORY_JSON_PATH):
         self.products = {}  # Diccionario de productos
         self.json_file = json_file
         self.load_inventory()   # Carga el inventario desde el archivo JSON
 
     # Cargar inventario desde JSON
-    def load_inventory(self):
+    def load_inventory(self) -> None:
         try:
             with open(self.json_file, 'r') as file:
                 data = json.load(file)
@@ -47,14 +47,18 @@ class Inventory():
 
             
     # Guardar inventario a JSON
-    def save_inventory(self):
+    def save_inventory(self) -> None:
         with open(self.json_file, 'w') as file: # Abre el archivo en modo escritura
-            # Crea un diccionario con los productos
-            data = {'Products': [product.product_to_dict() for product in self.products.values()]}
+            data = {        # Crea un diccionario con los productos
+                'Products': [
+                    product.product_to_dict()   # Convierte el producto a un diccionario
+                    for product in self.products.values()  
+                ]
+            }
             json.dump(data, file, indent=4)   # Escribe el diccionario en el archivo JSON
 
     # Agrega productos al inventario
-    def add_product(self, product):
+    def add_product(self, product: dict) -> bool:
         if product.id in self.products:   # Verifica si el producto ya existe
             print('Product already exists')
             return False
@@ -64,13 +68,13 @@ class Inventory():
             print('Product added successfully')
 
     # Muestra los productos del inventario
-    def show_products(self):
+    def show_products(self) -> None:
         print('Products in inventory')
         for product in self.products.values():  # Recorre los productos del inventario
             print(product, "\n")    # Imprime el producto
 
     # Busca un producto en el inventario
-    def search_product(self, id):
+    def search_product(self, id: int):
         if id in self.products:  # Verifica si el producto existe
             print(self.products.get(id))    # Imprime el producto
             return self.products.get(id)    # Retorna el producto
@@ -79,7 +83,7 @@ class Inventory():
             return False
     
     # Cambia el stock de un producto
-    def change_stock(self, id, change_stock):
+    def change_stock(self, id: int, change_stock: int) -> bool:
         product = self.search_product(id)
         if product:
             product.stock = change_stock    # Cambia el stock del producto
@@ -89,7 +93,9 @@ class Inventory():
         return False
 
     # Actualiza un producto del inventario
-    def update_product(self, id, name, price, stock):
+    def update_product(
+            self, id: int, name: str, price: float, stock: int
+            ) -> bool:
         product = self.search_product(id)   # Busca el producto
         if product:
             # Actualiza los datos del producto
@@ -102,7 +108,7 @@ class Inventory():
         return False
     
     # Elimina un producto del inventario
-    def delete_product(self, id):
+    def delete_product(self, id: int) -> bool:
         product = self.search_product(id)   # Busca el producto
         if product:
             self.products.pop(id)   # Elimina el producto del diccionario

@@ -13,7 +13,6 @@ Constants:
     INVENTORY_JSON_PATH: Path to the JSON file storing the inventory data.
 """
 
-
 import json
 import os
 from datetime import datetime

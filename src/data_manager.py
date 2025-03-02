@@ -73,16 +73,15 @@ class User(JSONHandler):
 
     # Method to add a user
     @classmethod
-    def login(cls, account: str, password: str, role: str) -> None:
+    def login(cls, account: str, password: str, role: str) -> bool:
         for user in cls.users:  # Itera on the users
-            if user.account == account:    # Check if the user exists
-                # Check the password and role
+            if user.account == account:    # Check user account
                 if user.password == password and user.role == role:
                     print("Successful login")
                     return True
-            else:
-                print("Account does not exist")
-                return False
+        else:
+            print("Account does not exist")
+            return False
 
 
 # Class to manage records
@@ -121,7 +120,7 @@ class Record(JSONHandler):
     def get_next_id(cls, json_file: str) -> int:
         data = cls.load_from_json(json_file, 'Records')    # Carga los datos
         if data and data['Records']:    
-            return data['Records'][-1]['Record_id'] + 1
+            return data['Records'][-1]['record_id'] + 1
         return 1
 
     # Method to add a record to the JSON file

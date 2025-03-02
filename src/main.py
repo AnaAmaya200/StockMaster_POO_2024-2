@@ -1,3 +1,6 @@
+"""
+"""
+
 from src.inventory import Inventory, Product
 from src.data_manager import Record, User
 
@@ -52,7 +55,7 @@ def main():
                 product = Product(id, name, price, stock)
                 inventory.add_product(product)
                 Record.add_record_to_json(
-                    id, name, name, stock, 'added', json_file=RECORDS_JSON_PATH
+                    id, name, stock, 'added', json_file=RECORDS_JSON_PATH
                     )
 
             case '2':  # Show products
@@ -83,10 +86,16 @@ def main():
 
             case '6':   # Delete product
                 id = int(input('Enter product id: '))
-                inventory.delete_product(id)
-                Record.add_record_to_json(
-                    id, name, stock, 'removed', json_file=RECORDS_JSON_PATH
-                    )
+                product = inventory.delete_product(id)
+                if product:
+                    name = product.name
+                    stock = product.stock
+                    inventory.delete_product(id)
+                    Record.add_record_to_json(
+                        id, name, stock, 'removed', json_file=RECORDS_JSON_PATH
+                        )
+                else:
+                    print('Product not found')
 
             case '7':   # Exit
                 print("Exiting the program...")

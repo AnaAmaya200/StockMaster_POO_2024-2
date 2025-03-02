@@ -10,10 +10,6 @@ class JSONHandler:
         try:
             with open(json_file, 'r') as file:  # Open the file in read mode
                 data = json.load(file)  # Load the data
-                print(
-                    f"Data successfully loaded from '{json_file} | "
-                    f"{data_name}'"
-                    )
                 return data     # Return the data
         except FileNotFoundError:   # Captures the exception if the file does not exist
             print(f"Error: File '{json_file}' does not exist")
@@ -27,7 +23,6 @@ class JSONHandler:
         try:
             with open(json_file, 'w') as file:  # Open the file in write mode
                 json.dump(data, file, indent=4)     # Write the data to the file
-                print(f"Data successfully saved to '{json_file}'")
         except Exception as e:  # Captures any exception
             print(f"Error: Could not save data to '{json_file}. Reason: {e}")
 

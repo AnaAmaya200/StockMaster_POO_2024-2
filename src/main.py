@@ -26,13 +26,13 @@ def main():
     Record.initialize_json_file(RECORDS_JSON_PATH, {'Records': []})    
     inventory = Inventory()    # Create an inventory object
 
-    # Loop to login
-    while True:
-        print('\nWelcome to StockMaster')
-        account, password, role = get_user_credentials()    # Get user credentials
+    # # Loop to login
+    # while True:
+    #     print('\nWelcome to StockMaster')
+    #     account, password, role = get_user_credentials()    # Get user credentials
         
-        if User.login(account, password, role):     # Verify user credentials
-            break
+    #     if User.login(account, password, role):     # Verify user credentials
+    #         break
    
    # Loop to show the menu
     while True:
@@ -45,6 +45,7 @@ def main():
         print('6. Delete product')
         print('7. Exit')
         option = input('  Select an option: ')  # Opción seleccionada por el usuario
+        print()
 
         match option: 
             case '1':   # Add product
@@ -68,10 +69,10 @@ def main():
             case '4':   # Change stock
                 id = int(input('Enter product id: '))
                 stock = int(input('Enter the value to adjust the stock: '))
-                name_4 = inventory.products[id].name
+                name = inventory.products[id].name
                 inventory.change_stock(id, stock)
                 Record.add_record_to_json(
-                    id, name_4, stock, 'Stock Changed', json_file=RECORDS_JSON_PATH
+                    id, name, stock, 'Stock Changed', json_file=RECORDS_JSON_PATH
                     )
 
             case '5':   # Update product
@@ -79,7 +80,8 @@ def main():
                 name = input('Enter product name: ')
                 price = float(input('Enter product price: '))
                 stock = int(input('Enter product stock: '))
-                inventory.update_product(id, name, price, stock)
+                product = Product(id, name, price, stock)
+                inventory.update_product(product)
                 Record.add_record_to_json(
                     id, name, stock, 'updated', json_file=RECORDS_JSON_PATH
                     )
@@ -88,11 +90,8 @@ def main():
                 id = int(input('Enter product id: '))
                 product = inventory.delete_product(id)
                 if product:
-                    name = product.name
-                    stock = product.stock
-                    inventory.delete_product(id)
                     Record.add_record_to_json(
-                        id, name, stock, 'removed', json_file=RECORDS_JSON_PATH
+                        id, product.name, product.stock, 'removed', json_file=RECORDS_JSON_PATH
                         )
                 else:
                     print('Product not found')

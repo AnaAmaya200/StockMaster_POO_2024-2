@@ -1,6 +1,16 @@
 from datetime import datetime
 from src.JSONHandler import JSONHandler
 
+"""
+This module defines the Record class for handling record data.
+
+The Record class inherits from JSONHandler and provides functionalities 
+to manage records related to products. It includes methods for initializing 
+a record, converting record data to a dictionary, initializing a JSON file, 
+getting the next available record ID, adding a record to a JSON file, clearing 
+the JSON file, and displaying records.
+
+"""
 class Record(JSONHandler):
     def __init__(self, record_id, id, name, amount, movement):
         now = datetime.now()                    # Obtiene la fecha y hora actual

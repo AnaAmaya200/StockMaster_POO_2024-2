@@ -1,7 +1,17 @@
 import json
 import os
 
+"""
+This module defines the JSONHandler class for handling JSON file operations.
 
+The JSONHandler class provides functionalities to load data from a JSON file, 
+save data to a JSON file, initialize a JSON file with default data, and display 
+elements from a JSON file.
+
+Classes:
+    JSONHandler: A class to handle JSON file operations.
+
+"""
 # Clase para manejar archivos JSON
 class JSONHandler:
     # Método para cargar datos

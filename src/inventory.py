@@ -2,14 +2,13 @@ import json
 from src.Product import Product
 
 INVENTORY_JSON_PATH = 'data/inventory.json'
-# Class to manage products
 
-# Class to manage the inventory
-class Inventory():
-    """The Inventory class manages a collection of products by loading, saving, and manipulating product data stored in a JSON file. 
+"""The Inventory class manages a collection of products by loading, saving, and manipulating product data stored in a JSON file. 
     When initialized, the class loads the inventory data from the specified JSON file into a dictionary. It offers methods to add, display, search, update, and delete products within this dictionary. 
     Each time a change is made to the inventory (such as adding, updating, or deleting a product), the class saves the updated inventory back to the JSON file. This ensures that the inventory data remains consistent and up-to-date between sessions. The class provides a structured way to manage product information efficiently within an inventory system.
     """
+
+class Inventory():
     def __init__(self, json_file: str =INVENTORY_JSON_PATH):
         self.products = {}  # Dictionary to store the products
         self.json_file = json_file

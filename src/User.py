@@ -1,7 +1,11 @@
 from src.JSONHandler import JSONHandler
+"""
+The User class, inheriting from JSONHandler, manages user data with attributes for account, password, and role. 
+It includes methods for loading users from a JSON file, saving users to a JSON file, verifying login credentials, displaying users, adding new users, deleting users, and updating user information. These methods ensure that user data is consistently managed and easily accessible, allowing efficient handling of user-related operations.
+"""
 
-# Clase para manejar los usuarios
 class User(JSONHandler):
+
     users = []  # Lista de usuarios
 
     def __init__(self, account: str, password: str, role: str):

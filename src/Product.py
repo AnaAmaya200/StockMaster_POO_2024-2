@@ -1,5 +1,6 @@
 class Product():
-    """The Product class designed to hold essential information about a product, including its unique: identifier (id)
+    """
+    The Product class designed to hold essential information about a product, including its unique: identifier (id)
     name (name)
     price (price)
     and the number of items in stock (stock).

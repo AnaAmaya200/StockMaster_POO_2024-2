@@ -18,9 +18,25 @@
         },
         {
             "record_id": 3,
-            "product_id": 1,
-            "name": "Laptop - Lenovo",
-            "amount": 5,
+            "product_id": 24,
+            "name": "skills",
+            "amount": 10,
+            "movement": "added",
+            "date": "2025-03-02"
+        },
+        {
+            "record_id": 4,
+            "product_id": 26,
+            "name": "glasses",
+            "amount": 32,
+            "movement": "removed",
+            "date": "2025-03-02"
+        },
+        {
+            "record_id": 5,
+            "product_id": 25,
+            "name": "glasses",
+            "amount": 12,
             "movement": "Stock Changed",
             "date": "2025-03-02"
         }

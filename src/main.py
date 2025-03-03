@@ -19,7 +19,9 @@ JSON Files:
 """
 
 from src.inventory import Inventory, Product
-from src.data_manager import Record, User
+from src.User import User
+from src.Record import Record
+from src.JSONHandler import JSONHandler
 
 from getpass import getpass     # Hide password
 
@@ -41,7 +43,7 @@ def main():
     # Initialize JSON file for records
     Record.initialize_json_file(RECORDS_JSON_PATH, {'Records': []})    
     inventory = Inventory()    # Create an inventory object
-
+    
     # Loop to login
     while True:
         print('\nWelcome to StockMaster')

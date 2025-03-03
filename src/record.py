@@ -27,7 +27,7 @@ Attributes:
 
 from datetime import datetime
 
-from src.json_handler import JSONHandler
+from src.JSONHandler import JSONHandler
 
 # Clase para manejar los registros
 class Record(JSONHandler):

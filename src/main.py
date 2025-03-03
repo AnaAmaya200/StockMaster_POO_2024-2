@@ -181,14 +181,14 @@ def main():
 
                 case '3':   # Delete user
                     account = input('Enter account: ')
-                    User.delete_user(account,USER_JSON_PATH)
+                    User.delete_user(account, USER_JSON_PATH)
 
                 case '4':   #  Update user
                     account = input('Enter account: ')
                     new_password = getpass('Enter new password: ')
                     new_role = input('Enter new role: ')
 
-                    User.update_user(account, USER_JSON_PATH, new_password, new_role)
+                    User.update_user(account, new_password, new_role, USER_JSON_PATH)
 
                 case '5':   # Exit
                     print("Exiting the program...")

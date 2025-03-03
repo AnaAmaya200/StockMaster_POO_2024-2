@@ -2,6 +2,8 @@ import json
 import os
 from datetime import datetime
 
+
+
 # Clase para manejar archivos JSON
 class JSONHandler:
     # Método para cargar datos
@@ -76,7 +78,7 @@ class User(JSONHandler):
     @classmethod
     def save_users(cls, json_file: str):
         # Crea un diccionario con los usuarios
-        data = {'Usuarios': [user.__dict__ for user in cls.users]}
+        data = {'Users': [user.__dict__ for user in cls.users]}
         cls.save_to_json(data, json_file)   # Guarda los datos
         print(f"Users successfully saved to '{json_file}'")
 
@@ -98,6 +100,37 @@ class User(JSONHandler):
     def show_users(cls, json_file: str):
         cls.show_elements_of_json(json_file, 'Users')
 
+    @classmethod
+    def add_user(cls, account: str, password: str, role: str, json_file: str):
+        new_user = User(account, password, role)
+        cls.users.append(new_user)
+        cls.save_users(json_file)  # Guarda los usuarios actualizados en el archivo JSON
+        print(f"User '{account}' added successfully.")
+
+    # Método para eliminar un usuario
+    @classmethod
+    def delete_user(cls, account: str, json_file: str):
+        for user in cls.users:
+            if user.account == account:
+                cls.users.remove(user)
+                cls.save_users(json_file)  
+                print(f"User '{account}' deleted successfully.")
+                return True
+        print(f"User '{account}' not found.")
+        return False
+
+    @classmethod
+    def update_user(cls, account: str, new_password: str = None, new_role: str = None, json_file: str = None):
+        for user in cls.users:
+            if user.account == account:
+                if new_password:
+                    user.password = new_password
+                if new_role:
+                    user.role = new_role
+                cls.save_users(json_file)  
+                print(f"User '{account}' updated successfully.")
+                    
+    
 # Clase para manejar los registros
 class Record(JSONHandler):
     def __init__(self, record_id, id, name, amount, movement):

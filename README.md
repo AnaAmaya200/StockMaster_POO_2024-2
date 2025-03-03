@@ -9,6 +9,18 @@
 >
 > Elegimos esta opción porque permite un alto grado de flexibilidad y adaptabilidad para poner en práctica los temas vistos durante el semestre, al igual que darle un enfoque particular al tomar piezas de las distintas ramas de la ingeniería en las cuales elegimos especializarnos.
 
+# 📋 Tabla de contenido
+1. [Recomendaciones de uso](#-recomendaciones-de-uso)
+2. [Funcionalidades propuestas](#-funcionalidades-propuestas)
+3. [Fase 1](#-fase-1)
+4. [Fase 2](#-fase-2)
+5. [Fase 3](#-fase-3)
+8. [Integrantes](#-integrantes)
+
+# 📖 Recomendaciones de uso
+- Se recomienda usar Python 3.13 o superior
+- No se requieren librerías adicionales no integradas
+   
 # 🚀 Funcionalidades propuestas
 - ✅ Carga masiva de datos desde una base .json
 - ✅ Mostrar el inventario actualizado en cualquier momento
@@ -117,7 +129,7 @@ StockMaster
 Select an option:            
 ```
 como se puede apreciar el elemento nuevo fue creado con éxito 
-# :construction: Fase 2
+# 🏗 Fase 2
 Para la segunda fase, comenzamos por agregar el sistema de autenticación con contraseña.
 Adicional a esto hemos ejecutado el almacenamiento de elementos en formatos json asi mismo como su modificación.
 

@@ -39,24 +39,24 @@ from src.user import User
 from src.record import Record
 
 # JSON file paths
-DATA_DIR = 'data'
-USER_JSON_PATH = f'{DATA_DIR}/users.json'   # JSON file for users
-INVENTORY_JSON_PATH = f'{DATA_DIR}/inventory.json'   # JSON file for inventory
-RECORDS_JSON_PATH = f'{DATA_DIR}/records.json'   # JSON file for records
+DATA_DIR = 'data'                                   # Directory for data files
+USER_JSON_PATH = f'{DATA_DIR}/users.json'           # JSON file for users
+INVENTORY_JSON_PATH = f'{DATA_DIR}/inventory.json'  # JSON file for inventory
+RECORDS_JSON_PATH = f'{DATA_DIR}/records.json'      # JSON file for records
 
 # Function to obtain user credentials
 def get_user_credentials() -> tuple:
     print("\nPlease login")
-    account = input('  User: ')
+    account = input('  User: ')     # Get username
     password = getpass('  Password: ')  # Hide password
-    account = ' '.join(word.capitalize() for word in account.split())
+    account = ' '.join(word.capitalize() for word in account.split())   # Capitalize username
     return account, password
 
 def main():
+    print('\n| StockMaster Inventory Management System |')
     User.load_users(USER_JSON_PATH)   # Load users from JSON file
-    # Initialize JSON file for records
-    Record.initialize_json_file(RECORDS_JSON_PATH, {'Records': []})    
     inventory = Inventory(INVENTORY_JSON_PATH)    # Create an inventory object
+    Record.initialize_json_file(RECORDS_JSON_PATH) # Initialize records JSON file   
     
     # Loop to login
     while True:

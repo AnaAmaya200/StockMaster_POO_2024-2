@@ -25,6 +25,7 @@ Attributes:
 """
 
 from src.json_handler import JSONHandler
+from src.inventory import Product
 
 # Clase para manejar los usuarios
 class User(JSONHandler):

@@ -32,7 +32,12 @@ Usage:
 """
 
 from src.inventory import Inventory, Product
+<<<<<<< Updated upstream
 from src.json_handler import Record, User
+=======
+from src.user import User
+from src.record import Record
+>>>>>>> Stashed changes
 
 from getpass import getpass     # Hide password
 

@@ -17,8 +17,11 @@ import json
 import os
 from datetime import datetime
 
+<<<<<<< Updated upstream
 
 
+=======
+>>>>>>> Stashed changes
 # Clase para manejar archivos JSON
 class JSONHandler:
     # Método para cargar datos
@@ -64,4 +67,8 @@ class JSONHandler:
             for element in elements:
                 print(json.dumps(element, indent=4))  # Imprime cada elemento en formato JSON legible
         else:
+<<<<<<< Updated upstream
             print(f"No data found in '{data_name}'.")
+=======
+            print(f"No data found in '{data_name}'.")
+>>>>>>> Stashed changes

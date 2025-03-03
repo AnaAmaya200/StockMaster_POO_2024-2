@@ -53,7 +53,11 @@ class User(JSONHandler):
     @classmethod
     def save_users(cls, json_file: str):
         # Crea un diccionario con los usuarios
+<<<<<<< Updated upstream
         data = {'Users': [user.__dict__ for user in cls.users]}
+=======
+        data = {'Usuarios': [user.__dict__ for user in cls.users]}
+>>>>>>> Stashed changes
         cls.save_to_json(data, json_file)   # Guarda los datos
         print(f"Users successfully saved to '{json_file}'")
 
@@ -73,6 +77,7 @@ class User(JSONHandler):
     
     @classmethod
     def show_users(cls, json_file: str):
+<<<<<<< Updated upstream
         cls.show_elements_of_json(json_file, 'Users')
 
     @classmethod
@@ -104,3 +109,6 @@ class User(JSONHandler):
                     user.role = new_role
                 cls.save_users(json_file)  
                 print(f"User '{account}' updated successfully.")
+=======
+        cls.show_elements_of_json(json_file, 'Users')
+>>>>>>> Stashed changes

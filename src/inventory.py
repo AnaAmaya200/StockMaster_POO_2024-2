@@ -15,6 +15,8 @@ Constants:
 
 import json
 
+from src.json_handler import JSONHandler
+
 class Product():
     def __init__(self, id: int, name: str, price: float, stock: int):
         self.id = id            # Product ID
@@ -39,11 +41,12 @@ class Product():
         }
 
 
-class Inventory():
+class Inventory(JSONHandler):
     def __init__(self, json_file: str):
-        self.products = {}  # Dictionary to store the products
+        self.products = {}  # Diccionario para almacenar productos
         self.json_file = json_file
-        self.load_inventory()   # Load inventory from JSON
+        self.load_inventory()  # Cargar inventario desde JSON
+        super().__init__()  # Inicializa JSONHandler
 
     # Load inventory from JSON
     def load_inventory(self) -> None:
@@ -54,21 +57,24 @@ class Inventory():
                     item['id'] = int(item['id'])
                     product = Product(**item)   # Create a product object
                     self.products[product.id] = product # Add the product to the dictionary
+                print(f"Inventory succesfully loaded from '{self.json_file}'")
+            
         except FileNotFoundError:
             print(
                 f"The JSON file was not found, starting with an empty inventory."
                 )
+        return None
 
     # Save inventory to JSON
     def save_inventory(self) -> None:
-        with open(self.json_file, 'w') as file:     # Open the file in write mode
-            data = {        # Create a dictionary with the products
-                'Products': [
-                    product.product_to_dict()   # Convert the product to a dictionary
-                    for product in self.products.values()  
-                ]
-            }
-            json.dump(data, file, indent=4)   # Write the data to the JSON file
+        data = {
+            'Products': [
+                product.product_to_dict() for product in self.products.values()
+            ]
+        }
+        self.save_to_json(data, self.json_file)  # Usar método heredado
+        print(f"Inventory successfully saved to {self.json_file}")
+        return None
 
     # Add a product to the inventory
     def add_product(self, product: dict) -> bool:
@@ -84,7 +90,8 @@ class Inventory():
     def show_products(self) -> None:
         print('Products in inventory\n')
         for product in self.products.values():  # Iterate over the products
-            print(product)    
+            print(product)   
+        return None 
 
     # Search for a product in the inventory
     def search_product(self, id: int):

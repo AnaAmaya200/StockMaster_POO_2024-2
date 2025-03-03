@@ -31,7 +31,14 @@ from src.json_handler import JSONHandler
 
 # Clase para manejar los registros
 class Record(JSONHandler):
-    def __init__(self, record_id, id, name, amount, movement):
+    def __init__(
+            self, 
+            record_id: int, 
+            id: int, 
+            name: str, 
+            amount: int, 
+            movement: str
+            ):
         now = datetime.now()                    # Obtiene la fecha y hora actual
         self.record_id = record_id              # ID del registro
         self.product_id = id                    # ID del producto
@@ -53,14 +60,14 @@ class Record(JSONHandler):
 
     # Método para inicializar un archivo JSON
     @classmethod
-    def initialize_json_file(cls, json_file, default_data=None):
-        if default_data is None:    
-            default_data = {'Records': []}  # Valor por defecto
-        super().initialize_json_file(json_file, default_data)   # Inicializa el archivo JSON
+    def initialize_json_file(cls, json_file: str) -> None:
+        default_data = {'Records': []}  # Valor por defecto
+        # Inicializa el archivo JSON
+        super().initialize_json_file(json_file, default_data, 'Records')
 
     # Método para obtener el siguiente ID
     @classmethod
-    def get_next_id(cls, json_file):
+    def get_next_id(cls, json_file: str) -> int:
         data = cls.load_from_json(json_file, 'Records')    # Carga los datos
         if data and data['Records']:    
             return data['Records'][-1]['record_id'] + 1
@@ -68,7 +75,9 @@ class Record(JSONHandler):
 
     # Método para agregar un registro al archivo JSON
     @classmethod
-    def add_record_to_json(cls, product_id, name, amount, movement, json_file):
+    def add_record_to_json(
+        cls, product_id: int, name: str, amount: int, movement: str, json_file: str
+        ) -> None:
         next_id = cls.get_next_id(json_file)    # Obtiene el siguiente ID
         record = Record(next_id, product_id, name, amount, movement)  # Crea un registro
         data = cls.load_from_json(json_file, 'Records') or {'Records': []}   # Carga los datos

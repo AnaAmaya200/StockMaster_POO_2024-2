@@ -3,7 +3,11 @@
 # UNIVERSIDAD NACIONAL DE COLOMBIA
 # Programación Orientada a Objetos 2024-II
 
-> Sistema de gestión de inventario para una tienda de productos y componentes electrónicos.
+> Stockmaster es un sistema de gestión de inventario para una tienda de productos y componentes electrónicos; permite modificar, agregar y eliminar stock de productos que se moverían por un sistema logístico de almacenamiento.
+> 
+> Es presentado como proyecto final de la asignatura.
+>
+> Elegimos esta opción porque permite un alto grado de flexibilidad y adaptabilidad para poner en práctica los temas vistos durante el semestre, al igual que darle un enfoque particular al tomar piezas de las distintas ramas de la ingeniería en las cuales elegimos especializarnos.
 
 # 🚀 Funcionalidades propuestas
 - ✅ Carga masiva de datos desde una base .json
@@ -192,7 +196,7 @@ direction TB
 │── 📂 models/                    # Clases principales del proyecto
 |  |── 📌 product.py              # Clase Producto: representa los productos del inventario
 |  |── 📌 records.py              # Clase Registro: representa los movimientos (entradas/salidas)
-|  |── 📌 Users.py                # Clase Registro: representa los movimientos (entradas/salidas)
+|  |── 📌 Users.py                # Clase Users: se encarga de gestionar roles y permisos
 |
 │── 📂 services/                  # Lógica de negocio
 |  |── 📌 inventory_service.py    # Manejo de inventario, registros y persistencia
@@ -348,8 +352,135 @@ Cabe resaltar que este se actualiza según las acciones hechas en el sistema
     ]
 }
 ```
+## 🏗 Fase 3
+En el último segmento, se implementaron múltiples funcionalidades planteadas en el avance de proyecto y otros requerimientos finales que buscan garantizar las buenas prácticas al programar:
+- Reestructuración de intefaz de login
+- Restricción de clases discriminando por cargo
+- Persistencia de errores
+- Validación de tipo de datos ingresados
+- Docstrings para cada módulo
+- Consistencia en idioma de anotaciones
+- Uso de git para control de versiones y sincronización de archivos
+### :card_file_box: Diagrama UML fase 3
+```mermaid
+classDiagram
+    class Product {
+        +int productID
+        +string name
+        +float price
+        +int quantity
+        +displayProduct()
+        +updateProduct()
+        +searchProduct()
+    }
 
-### 🌟 Integrantes  
+    class User {
+        +string username
+        +string password
+        +string role
+        +login()
+        +logout()
+    }
+
+    class Boss {
+        +addProduct()
+        +updateStock()
+        +showTransactions()
+    }
+
+    class Administrative {
+        +addProduct()
+        +updateStock()
+        +updateProduct()
+    }
+
+    class Employee {
+        +showProducts()
+        +searchProduct()
+    }
+
+    class Stock {
+        +int productID
+        +int stockQuantity
+        +updateStock()
+        +checkStock()
+    }
+
+    class Transaction {
+        +int transactionID
+        +int productID
+        +int quantity
+        +float totalPrice
+        +processTransaction()
+    }
+
+    Product --> Stock : 
+    User <|-- Boss : "inherits"
+    User <|-- Administrative : "inherits"
+    User <|-- Employee : "inherits"
+    Transaction --> Product : "involves"
+    Transaction --> Stock : "updates"
+    Transaction --> User : "belongs to"
+```
+### 🛠 Estructura de archivos fase 3
+```plaintext
+📦 StockMaster/
+|── 📌 README.md                    # Descripción del proyecto
+|
+│── 📂 src/                         # Clases principales del proyecto
+|  |── 📂 __pycache__/              # Archivo de cache de Python
+|  |── 📌 record.py                 # Clase Registro: registra las acciones realizadas por los usuarios
+|  |── 📌 user.py                   # Clase Usuarios: gestiona la autenticación y los datos del usuario
+|  |── 📌 inventory.py              # Clase Inventario: maneja las modificaciones a los productos
+|  |── 📌 JSONHandler.py            # Clase JSON: soporta las operaciones con los archivos JSON
+|  |── 📌 main.py                   # Clase Principal: interactúa con el usuario y utiliza las clases necesarias para cada situación
+|  |── 📌 menu.py                   # Clase Registro: define las opciones del menú para cada usuario particular
+|  |── 📌 product.py                # Clase Producto: representa los productos del inventario
+|  |── 📌 records.py                # Clase Registro: representa los movimientos (entradas/salidas)
+|
+│── 📂 data/                        # Almacena la información en archivos JSON
+│── 📄 inventory.json               # Archivo para almacenar los datos de los productos
+│── 📄 records.json                 # Archivo para almacenar los movimientos de inventario
+│── 📄 users.json                   # Archivo para almacenar los usuarios registrados con sus contraseñas
+
+```
+### 💡 Ejemplo:
+Se muestra el menú disponible para Felipe González aka "The BOSS", con acceso a registros y exports:
+```python
+Please login
+  User: Felipe Gonzalez
+  Password: 
+Successful login
+Welcome, Felipe Gonzalez, you have Boss access
+
+Menu:
+1. Show records
+2. Show products
+3. Show users
+4. Export records
+5. Export products
+6. Clean records
+7. Exit
+  Select an option:
+```
+En contraste, el menú para empleados, donde solo se permite modificar los productos:
+```python
+Please login
+  User: Ana Amaya
+  Password: 
+Successful login
+Welcome, Ana Amaya, you have Employee access
+
+Menu:
+1. Show products
+2. Add product
+3. Update product
+4. Delete product
+5. Change stock
+6. Exit
+```
+
+## 🌟 Integrantes  
 - 📱 Amaya Gómez Ana María
 - 🏭 Daza Yepes Santiago
 - 🤖 Torres Zaque Julian Ricardo

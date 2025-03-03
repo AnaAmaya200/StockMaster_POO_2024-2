@@ -15,6 +15,14 @@
             "amount": 12,
             "movement": "Stock Changed",
             "date": "2025-03-02"
+        },
+        {
+            "record_id": 3,
+            "product_id": 1,
+            "name": "Laptop - Lenovo",
+            "amount": 5,
+            "movement": "Stock Changed",
+            "date": "2025-03-02"
         }
     ]
 }

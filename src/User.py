@@ -1,11 +1,33 @@
-from src.JSONHandler import JSONHandler
 """
-The User class, inheriting from JSONHandler, manages user data with attributes for account, password, and role. 
-It includes methods for loading users from a JSON file, saving users to a JSON file, verifying login credentials, displaying users, adding new users, deleting users, and updating user information. These methods ensure that user data is consistently managed and easily accessible, allowing efficient handling of user-related operations.
+User Class - Manages user authentication and user data.
+
+This class handles user-related operations such as loading users from a JSON file,
+saving users to a JSON file, user authentication (login), and displaying user information.
+
+Inherits from:
+    JSONHandler: Provides methods to load and save data in JSON format.
+
+Class Attributes:
+    users (list): A list to store User objects.
+
+Methods:
+    __init__(account: str, password: str, role: str): Initializes a User object.
+    __str__(): Returns a string representation of the User object.
+    load_users(json_file: str): Loads users from a JSON file into the `users` list.
+    save_users(json_file: str): Saves the current list of users to a JSON file.
+    login(account: str, password: str): Authenticates a user and returns their role if successful.
+    show_users(json_file: str): Displays all users stored in the JSON file.
+
+Attributes:
+    account (str): The username of the user.
+    password (str): The password of the user.
+    role (str): The role of the user (e.g., Employee, Boss, Administrative).
 """
 
+from src.json_handler import JSONHandler
+
+# Clase para manejar los usuarios
 class User(JSONHandler):
-
     users = []  # Lista de usuarios
 
     def __init__(self, account: str, password: str, role: str):
@@ -26,11 +48,12 @@ class User(JSONHandler):
                 for user_data in data.get('Users', [])
             ]
 
+
     # Método para guardar los usuarios
     @classmethod
     def save_users(cls, json_file: str):
         # Crea un diccionario con los usuarios
-        data = {'Users': [user.__dict__ for user in cls.users]}
+        data = {'Usuarios': [user.__dict__ for user in cls.users]}
         cls.save_to_json(data, json_file)   # Guarda los datos
         print(f"Users successfully saved to '{json_file}'")
 

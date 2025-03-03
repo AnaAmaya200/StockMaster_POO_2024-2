@@ -1,16 +1,35 @@
+"""
+Record Class - Manages inventory action logs and records.
+
+This class handles the creation, storage, and management of records related to inventory actions,
+such as adding, updating, or deleting products. Records are stored in a JSON file for tracking purposes.
+
+Inherits from:
+    JSONHandler: Provides methods to load and save data in JSON format.
+
+Methods:
+    __init__(record_id, id, name, amount, movement): Initializes a Record object.
+    to_dict(): Converts the Record object to a dictionary for JSON storage.
+    initialize_json_file(json_file, default_data=None): Initializes a JSON file with default data.
+    get_next_id(json_file): Retrieves the next available record ID from the JSON file.
+    add_record_to_json(product_id, name, amount, movement, json_file): Adds a new record to the JSON file.
+    clear_json_file(json_file): Clears all records from the JSON file.
+    show_records(json_file): Displays all records stored in the JSON file.
+
+Attributes:
+    record_id (int): Unique identifier for the record.
+    product_id (int): ID of the product associated with the record.
+    name (str): Name of the product.
+    amount (int): Quantity or amount involved in the action.
+    movement (str): Description of the action (e.g., "added", "updated", "removed").
+    date (str): Date of the action in 'YYYY-MM-DD' format.
+"""
+
 from datetime import datetime
-from src.JSONHandler import JSONHandler
 
-"""
-This module defines the Record class for handling record data.
+from src.json_handler import JSONHandler
 
-The Record class inherits from JSONHandler and provides functionalities 
-to manage records related to products. It includes methods for initializing 
-a record, converting record data to a dictionary, initializing a JSON file, 
-getting the next available record ID, adding a record to a JSON file, clearing 
-the JSON file, and displaying records.
-
-"""
+# Clase para manejar los registros
 class Record(JSONHandler):
     def __init__(self, record_id, id, name, amount, movement):
         now = datetime.now()                    # Obtiene la fecha y hora actual

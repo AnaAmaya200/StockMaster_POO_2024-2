@@ -1,3 +1,18 @@
+"""
+inventory.py - Inventory and Product Management
+
+This module provides classes and methods to manage products and inventory, 
+including adding, updating, searching, and deleting products. 
+It also allows saving and loading the inventory from a JSON file.
+
+Classes:
+    Product: Represents a product with ID, name, price, and stock.
+    Inventory: Manages a collection of products and handles JSON file operations.
+
+Constants:
+    INVENTORY_JSON_PATH: Path to the JSON file storing the inventory data.
+"""
+
 import json
 from src.Product import Product
 

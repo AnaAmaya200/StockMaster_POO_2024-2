@@ -31,14 +31,7 @@
             "amount": 32,
             "movement": "removed",
             "date": "2025-03-02"
-        },
-        {
-            "record_id": 5,
-            "product_id": 25,
-            "name": "glasses",
-            "amount": 14,
-            "movement": "added",
-            "date": "2025-03-02"
         }
+     
     ]
 }

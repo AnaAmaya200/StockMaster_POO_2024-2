@@ -5,21 +5,34 @@ This module provides a command-line interface to manage product inventory,
 including adding, updating, searching, and deleting products. 
 It also records all actions in a JSON file for tracking purposes.
 
+The system supports different user roles (Employee, Boss, Administrative) 
+with specific permissions and functionalities for each role.
+
 Modules:
     - inventory: Manages products and stock.
-    - data_manager: Handles user and record data.
+    - user: Handles user authentication and management.
+    - record: Manages action logs and records.
 
 Functions:
     get_user_credentials(): Prompts the user to enter their login credentials.
-    main(): Runs the main menu loop for inventory management.
+    main(): Runs the main menu loop for inventory management based on user role.
 
 JSON Files:
     - users.json: Stores user data for login authentication.
     - records.json: Logs all actions performed on the inventory.
+
+User Roles:
+    - Employee: Can manage products (add, update, delete, change stock).
+    - Boss: Can view records, products, users, and clean records.
+    - Administrative: Can manage users (add, delete, update).
+
+Usage:
+    Run the script to start the inventory management system. 
+    Users must log in with valid credentials to access the system.
 """
 
 from src.inventory import Inventory, Product
-from src.data_manager import Record, User
+from src.json_handler import Record, User
 
 from getpass import getpass     # Hide password
 

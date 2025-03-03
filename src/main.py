@@ -33,6 +33,7 @@ def get_user_credentials() -> tuple:
     print("\nPlease login")
     account = input('  User: ')
     password = getpass('  Password: ')  # Hide password
+    account = ' '.join(word.capitalize() for word in account.split())
     return account, password
 
 def main():

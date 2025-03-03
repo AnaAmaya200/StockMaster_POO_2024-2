@@ -1,9 +1,26 @@
 import json
+"""
+This module provides classes and methods for handling JSON files, users, and records.
+It includes the following classes:
+
+- JSONHandler: Base class for handling JSON files.
+- User: Class for handling users, inherits from JSONHandler.
+- Record: Class for handling records, inherits from JSONHandler.
+"""
 
 INVENTORY_JSON_PATH = 'data/inventory.json'
-
 # Class to manage products
 class Product():
+    """The Product class designed to hold essential information about a product, including its unique: identifier (id)
+    name (name)
+    price (price)
+    and the number of items in stock (stock).
+    When an instance of the Product class is created, these attributes are initialized with the provided values. 
+    The class includes a method called __str__ which returns a formatted string representation of the product, making it easy to display the product's details in a readable format.
+    This class provides a straightforward way to manage and display product information within an inventory system.
+
+
+    """
     def __init__(self, id: int, name: str, price: float, stock: int):
         self.id = id            # Product ID
         self.name = name        # Product name
@@ -29,6 +46,10 @@ class Product():
 
 # Class to manage the inventory
 class Inventory():
+    """The Inventory class manages a collection of products by loading, saving, and manipulating product data stored in a JSON file. 
+    When initialized, the class loads the inventory data from the specified JSON file into a dictionary. It offers methods to add, display, search, update, and delete products within this dictionary. 
+    Each time a change is made to the inventory (such as adding, updating, or deleting a product), the class saves the updated inventory back to the JSON file. This ensures that the inventory data remains consistent and up-to-date between sessions. The class provides a structured way to manage product information efficiently within an inventory system.
+    """
     def __init__(self, json_file: str =INVENTORY_JSON_PATH):
         self.products = {}  # Dictionary to store the products
         self.json_file = json_file

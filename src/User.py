@@ -24,7 +24,7 @@ Attributes:
     role (str): The role of the user (e.g., Employee, Boss, Administrative).
 """
 
-from src.JSONHandler import JSONHandler
+from src.json_handler import JSONHandler
 
 # Clase para manejar los usuarios
 class User(JSONHandler):
@@ -47,7 +47,6 @@ class User(JSONHandler):
                 User(user_data['account'], user_data['password'], user_data['role'])
                 for user_data in data.get('Users', [])
             ]
-
 
     # Método para guardar los usuarios
     @classmethod

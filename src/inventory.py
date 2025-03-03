@@ -14,17 +14,33 @@ Constants:
 """
 
 import json
-from src.Product import Product
 
-INVENTORY_JSON_PATH = 'data/inventory.json'
+class Product():
+    def __init__(self, id: int, name: str, price: float, stock: int):
+        self.id = id            # Product ID
+        self.name = name        # Product name
+        self.price = price      # Product price
+        self.stock = stock      # Product stock
 
-"""The Inventory class manages a collection of products by loading, saving, and manipulating product data stored in a JSON file. 
-    When initialized, the class loads the inventory data from the specified JSON file into a dictionary. It offers methods to add, display, search, update, and delete products within this dictionary. 
-    Each time a change is made to the inventory (such as adding, updating, or deleting a product), the class saves the updated inventory back to the JSON file. This ensures that the inventory data remains consistent and up-to-date between sessions. The class provides a structured way to manage product information efficiently within an inventory system.
-    """
+    def __str__(self):
+        return (
+        f'Id: {self.id}\n'
+        f'    Name: {self.name}\n'
+        f'    Price: ${self.price}\n'
+        f'    Stock: {self.stock}')
+    
+    # Convert product data to a dictionary
+    def product_to_dict(self) -> dict:  
+        return {
+            'id': self.id,
+            'name': self.name,
+            'price': self.price,
+            'stock': self.stock
+        }
+
 
 class Inventory():
-    def __init__(self, json_file: str =INVENTORY_JSON_PATH):
+    def __init__(self, json_file: str):
         self.products = {}  # Dictionary to store the products
         self.json_file = json_file
         self.load_inventory()   # Load inventory from JSON
@@ -43,7 +59,6 @@ class Inventory():
                 f"The JSON file was not found, starting with an empty inventory."
                 )
 
-            
     # Save inventory to JSON
     def save_inventory(self) -> None:
         with open(self.json_file, 'w') as file:     # Open the file in write mode

@@ -1,9 +1,10 @@
+from getpass import getpass
+
 from src.inventory import Inventory, Product
 from src.user import User
 from src.record import Record
 
-
-def handler_admin_menu():
+def handler_admin_menu(USER_JSON_PATH: str) -> None:
     while True:
             print('\nMenu:')   
             print('1. Show users')
@@ -41,9 +42,10 @@ def handler_admin_menu():
 
                 case _:     # Invalid option
                     print('Invalid option. Please try again.')
+    return None
 
-def handler_boss_menu(inventory):
-  while True:
+def handler_boss_menu(inventory: Inventory, RECORDS_JSON_PATH: str, USER_JSON_PATH: str) -> None:
+    while True:
         print('\nMenu:')   
         print('1. Show records')
         print('2. Show products')
@@ -80,8 +82,9 @@ def handler_boss_menu(inventory):
 
             case _:     # Invalid option
                 print('Invalid option. Please try again.')
+    return None
 
-def handler_employee_menu(inventory):
+def handler_employee_menu(inventory: Inventory, RECORDS_JSON_PATH: str) -> None:
     while True:
         print('\nMenu:')   
         print('1. Show products')
@@ -104,6 +107,8 @@ def handler_employee_menu(inventory):
                 stock = int(input('Enter stock: '))
                 product = Product(id, name, price, stock)
                 inventory.add_product(product)
+                # Registrar la acción en el archivo JSON
+                Record.add_record_to_json(id, name, stock, 'added', json_file=RECORDS_JSON_PATH)
 
             case '3':   # Update product
                 id = int(input('Enter id: '))
@@ -112,15 +117,31 @@ def handler_employee_menu(inventory):
                 stock = int(input('Enter stock: '))
                 product = Product(id, name, price, stock)
                 inventory.update_product(product)
+                # Registrar la acción en el archivo JSON
+                Record.add_record_to_json(id, name, stock, 'updated', json_file=RECORDS_JSON_PATH)
 
             case '4':   # Delete product
                 id = int(input('Enter id: '))
-                inventory.delete_product(id)
+                deleted_product = inventory.delete_product(id)
+                if deleted_product:
+                    # Registrar la acción en el archivo JSON
+                    Record.add_record_to_json(
+                        id, deleted_product.name, deleted_product.stock, 'removed', json_file=RECORDS_JSON_PATH
+                    )
+                else:
+                    print('Product not found')
 
             case '5':   # Change stock
                 id = int(input('Enter id: '))
                 stock = int(input('Enter new stock: '))
-                inventory.change_stock(id, stock)
+                product = inventory.change_stock(id, stock)
+                if product:
+                    # Registrar la acción en el archivo JSON
+                    Record.add_record_to_json(
+                        id, product.name, stock, 'stock_changed', json_file=RECORDS_JSON_PATH
+                    )
+                else:
+                    print('Product not found')
 
             case '6':   # Exit
                 print("Exiting the program...")
@@ -128,3 +149,4 @@ def handler_employee_menu(inventory):
 
             case _:     # Invalid option
                 print('Invalid option. Please try again.')
+    return None

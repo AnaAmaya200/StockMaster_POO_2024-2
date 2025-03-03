@@ -1,6 +1,3 @@
-import json
-import os
-
 """
 This module defines the JSONHandler class for handling JSON file operations.
 
@@ -10,8 +7,11 @@ elements from a JSON file.
 
 Classes:
     JSONHandler: A class to handle JSON file operations.
-
 """
+
+import json
+import os
+
 # Clase para manejar archivos JSON
 class JSONHandler:
     # Método para cargar datos

@@ -25,16 +25,9 @@ Attributes:
     date (str): Date of the action in 'YYYY-MM-DD' format.
 """
 
-<<<<<<< Updated upstream
-from datetime import datetime
-
-from json_handler import JSONHandler
-=======
-import os
 from datetime import datetime
 
 from src.json_handler import JSONHandler
->>>>>>> Stashed changes
 
 # Clase para manejar los registros
 class Record(JSONHandler):

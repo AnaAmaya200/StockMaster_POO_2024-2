@@ -106,7 +106,7 @@
             "id": 18,
             "name": "RAM",
             "price": 100,
-            "stock": 20
+            "stock": 12
         },
         {
             "id": 19,
@@ -131,6 +131,12 @@
             "name": "Headphones",
             "price": 250,
             "stock": 30
+        },
+        {
+            "id": 26,
+            "name": "glasses",
+            "price": 12.0,
+            "stock": 32
         }
     ]
 }

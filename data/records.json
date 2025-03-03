@@ -1,3 +1,20 @@
 {
-    "Records": []
+    "Records": [
+        {
+            "record_id": 1,
+            "product_id": 26,
+            "name": "glasses",
+            "amount": 32,
+            "movement": "added",
+            "date": "2025-03-02"
+        },
+        {
+            "record_id": 2,
+            "product_id": 18,
+            "name": "RAM",
+            "amount": 12,
+            "movement": "Stock Changed",
+            "date": "2025-03-02"
+        }
+    ]
 }

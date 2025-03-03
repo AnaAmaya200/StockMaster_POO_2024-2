@@ -10,7 +10,7 @@ class JSONHandler:
         try:
             with open(json_file, 'r') as file:  # Abre el archivo en modo lectura
                 data = json.load(file)  # Carga los datos del archivo JSON
-                #print(f"Data successfully loaded from '{json_file} | {data_name}'")
+                print(f"Data successfully loaded from '{json_file} | {data_name}'")
                 return data     # Retorna los datos cargados
         except FileNotFoundError:   # Captura la excepción si el archivo no se encuentra
             print(f"Error: File '{json_file}' does not exist")
@@ -24,7 +24,7 @@ class JSONHandler:
         try:
             with open(json_file, 'w') as file:  # Abre el archivo en modo escritura
                 json.dump(data, file, indent=4)     # Escribe los datos en el archivo JSON
-                #print(f"Data successfully saved to '{json_file}'")
+                print(f"Data successfully saved to '{json_file}'")
         except Exception as e:  # Captura cualquier excepción
             print(f"Error: Could not save data to '{json_file}. Reason: {e}")
 
@@ -37,7 +37,7 @@ class JSONHandler:
             print(f"Inicialized file at '{json_file} with default data")
         else:   # Si el archivo ya existe
             print(f"File '{json_file}' already exists")
-
+    
     @classmethod
     def show_elements_of_json(cls, json_file, data_name: str):
         data = cls.load_from_json(json_file, data_name)  # Carga los datos del archivo JSON
@@ -65,15 +65,12 @@ class User(JSONHandler):
     @classmethod
     def load_users(cls, json_file: str):
         data = cls.load_from_json(json_file, 'Users')    # Carga los datos
-        print("Loaded data:", data)  # Imprime los datos cargados
-        if data and 'Users' in data:    # Si hay datos y la clave 'Users' está presente
+        if data:    # Si hay datos
             cls.users = [   # Crea una lista de usuarios
                 User(user_data['account'], user_data['password'], user_data['role'])
                 for user_data in data.get('Users', [])
             ]
-            print("Users list:", cls.users)
-        else:
-            print("No 'Users' key in data or data is None")
+
 
     # Método para guardar los usuarios
     @classmethod
@@ -81,7 +78,7 @@ class User(JSONHandler):
         # Crea un diccionario con los usuarios
         data = {'Usuarios': [user.__dict__ for user in cls.users]}
         cls.save_to_json(data, json_file)   # Guarda los datos
-        #print(f"Users successfully saved to '{json_file}'")
+        print(f"Users successfully saved to '{json_file}'")
 
     # Método para agregar un usuario
     @classmethod
@@ -99,42 +96,7 @@ class User(JSONHandler):
     
     @classmethod
     def show_users(cls, json_file: str):
-        cls.show_elements_of_json(json_file, 'Users')  
-
-    # Método para agregar un usuario
-    # @classmethod
-    # def add_user(cls, account: str, password: str, role: str, json_file: str):
-    #     new_user = User(account, password, role)
-    #     cls.users.append(new_user)
-    #     cls.save_users(json_file)  # Guarda los usuarios actualizados en el archivo JSON
-    #     print(f"User '{account}' added successfully.")
-
-    # Método para eliminar un usuario
-    @classmethod
-    def delete_user(cls, account: str, json_file: str):
-        for user in cls.users:
-            if user.account == account:
-                cls.users.remove(user)
-                cls.save_users(json_file)  # Guarda los usuarios actualizados en el archivo JSON
-                print(f"User '{account}' deleted successfully.")
-                return True
-        print(f"User '{account}' not found.")
-        return False
-
-    # Método para actualizar un usuario
-    @classmethod
-    def update_user(cls, account: str, json_file: str, new_password: str , new_role: str ):
-        for user in cls.users:
-            if user.account == account:
-                if new_password:
-                    user.password = new_password
-                if new_role:
-                    user.role = new_role
-                cls.save_users(json_file)  # Guarda los usuarios actualizados en el archivo JSON
-                print(f"User '{account}' updated successfully.")
-                return True
-        print(f"User '{account}' not found.")
-        return False
+        cls.show_elements_of_json(json_file, 'Users')
 
 # Clase para manejar los registros
 class Record(JSONHandler):
@@ -170,7 +132,7 @@ class Record(JSONHandler):
     def get_next_id(cls, json_file):
         data = cls.load_from_json(json_file, 'Records')    # Carga los datos
         if data and data['Records']:    
-            return data['Records'][-1]['Record_id'] + 1
+            return data['Records'][-1]['record_id'] + 1
         return 1
 
     # Método para agregar un registro al archivo JSON
@@ -183,11 +145,11 @@ class Record(JSONHandler):
         cls.save_to_json(data, json_file)   # Guarda los datos
     
     @classmethod
-    def show_records(cls, json_file: str):
-        cls.show_elements_of_json(json_file, 'Records')  
-
-    @classmethod
-    def clean_records(cls, json_file: str) -> None:
+    def clear_json_file(cls, json_file: str) -> None:
         empty_data = {'Records': []}  # Data vacía
         cls.save_to_json(empty_data, json_file)  # Guardar datos vacíos en el archivo JSON
         print("JSON file cleared successfully")
+    
+    @classmethod
+    def show_records(cls, json_file: str):
+        cls.show_elements_of_json(json_file, 'Records')

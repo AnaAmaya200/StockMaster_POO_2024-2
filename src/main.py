@@ -56,7 +56,7 @@ def main():
     # Initialize JSON file for records
     Record.initialize_json_file(RECORDS_JSON_PATH, {'Records': []})    
     inventory = Inventory()    # Create an inventory object
-
+    
     # Loop to login
     while True:
         print('\nWelcome to StockMaster')

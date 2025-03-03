@@ -36,8 +36,6 @@ from src.User import User
 from src.Record import Record
 from src.JSONHandler import JSONHandler
 
-from src.user import User
-from src.record import Record
 
 
 from getpass import getpass     # Hide password

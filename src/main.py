@@ -37,7 +37,6 @@ def get_user_credentials() -> tuple:
 
 def main():
     User.load_users(USER_JSON_PATH)   # Load users from JSON file
-    print (User.users)
     # Initialize JSON file for records
     Record.initialize_json_file(RECORDS_JSON_PATH, {'Records': []})    
     inventory = Inventory()    # Create an inventory object

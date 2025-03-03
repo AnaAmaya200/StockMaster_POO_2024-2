@@ -33,26 +33,27 @@ def get_user_credentials() -> tuple:
     print("\nPlease login")
     account = input('  User: ')
     password = getpass('  Password: ')  # Hide password
-    role = input('  Role: ')
-    
-    return account, password, role
+    return account, password
 
 def main():
     User.load_users(USER_JSON_PATH)   # Load users from JSON file
+    print (User.users)
     # Initialize JSON file for records
     Record.initialize_json_file(RECORDS_JSON_PATH, {'Records': []})    
     inventory = Inventory()    # Create an inventory object
 
-    # # Loop to login
-    # while True:
-    #     print('\nWelcome to StockMaster')
-    #     account, password, role = get_user_credentials()    # Get user credentials
-        
-    #     if User.login(account, password, role):     # Verify user credentials
-    #         break
-   
-   # Loop to show the menu
+    # Loop to login
     while True:
+        print('\nWelcome to StockMaster')
+        account, password = get_user_credentials()    # Get user credentials
+        access, role = User.login(account, password)  # Login
+        if access:
+            print(f'Welcome, {account}, you have {role} access')
+            break
+        else:
+            print('Login failed. Please try again.')
+   # Loop to show the menu
+    while role == "Employee":
         print('\nMenu:')   
         print('1. Add product')
         print('2. Show products')
@@ -117,9 +118,85 @@ def main():
                 print("Exiting the program...")
                 break
 
+            case _  :     # Invalid option
+                print('Invalid option. Please try again.')
+
+    while role == "Boss":
+        print('\nMenu:')   
+        print('1. Show records')
+        print('2. Show products')
+        print('3. Show users')
+        print('4. Export records')
+        print('5. Export products')
+        print('6. Clean records')
+        print('7. Exit')
+        option = input('  Select an option: ')  # Opción seleccionada por el usuario
+        print()
+
+        match option: 
+            case '1':   # show records
+                Record.show_records(RECORDS_JSON_PATH)
+                
+            case '2':  # Show products
+                inventory.show_products()
+
+            case '3':   # Search users
+                User.show_users(USER_JSON_PATH)
+
+            case '4':   # Export records
+                pass
+
+            case '5':   # Export products
+                pass
+
+            case '6':   # Clean records
+                Record.clean_records(RECORDS_JSON_PATH)
+
+            case '7':   # Exit
+                print("Exiting the program...")
+                break
+
             case _:     # Invalid option
                 print('Invalid option. Please try again.')
 
+
+    while role == "Administrative":
+            print('\nMenu:')   
+            print('1. Show users')
+            print('2. Add user')
+            print('3. Delete user')
+            print('4. Update user')
+            print('5. Exit')
+            option = input('  Select an option: ')  # Opción seleccionada por el usuario
+            print()
+
+            match option: 
+                case '1':   # Show users
+                    User.show_users(USER_JSON_PATH)
+
+                case '2':  # Add user
+                    account = input('Enter account: ')
+                    password = getpass('Enter password: ')
+                    role1 = input('Enter role: ')
+                    User.add_user(account, password, role1, USER_JSON_PATH)
+
+                case '3':   # Delete user
+                    account = input('Enter account: ')
+                    User.delete_user(account,USER_JSON_PATH)
+
+                case '4':   #  Update user
+                    account = input('Enter account: ')
+                    new_password = getpass('Enter new password: ')
+                    new_role = input('Enter new role: ')
+
+                    User.update_user(account, USER_JSON_PATH, new_password, new_role)
+
+                case '5':   # Exit
+                    print("Exiting the program...")
+                    break
+
+                case _:     # Invalid option
+                    print('Invalid option. Please try again.')
 
 if __name__ == '__main__':
     main()
